@@ -149,24 +149,100 @@
   var tr = $("#tickerRow"), tHtml = D.ticker.map(function (t) { return "<span>" + t + "</span>"; }).join("");
   tr.innerHTML = tHtml + tHtml;
 
-  /* ---------------- works ---------------- */
+  /* ---------------- works — معرض ثلاثي الأبعاد ---------------- */
   var wg = $("#worksGrid");
-  D.works.forEach(function (w, i) {
-    var a = el("a", "work rv");
-    a.href = b.instagram; a.target = "_blank"; a.rel = "noopener";
-    a.appendChild(el("span", "work__n", pad(i + 1)));
-    var img = new Image();
-    img.alt = w.t; img.loading = "lazy";
-    img.onerror = function () {
-      img.remove();
-      a.appendChild(el("div", "work__ph", "<b></b><span>ضع الصورة باسم " + w.img.split("/").pop() + "</span>"));
-    };
-    img.src = w.img;
-    a.appendChild(img);
-    /* [معطّل بطلبه] التعليق على الصورة — يرجع بشيل التعليق عن السطر التالي
-    a.appendChild(el("div", "work__cap", "<b>" + w.t + "</b><span>" + w.d + "</span>")); */
-    wg.appendChild(a);
-  });
+  if (wg) {
+    /* [معطّل] الشبكة القديمة — ترجع لو رجّعنا العنصر في index.html */
+    D.works.forEach(function (w, i) {
+      var a2 = el("a", "work rv");
+      a2.href = b.instagram; a2.target = "_blank"; a2.rel = "noopener";
+      a2.appendChild(el("span", "work__n", pad(i + 1)));
+      var img = new Image();
+      img.alt = w.t; img.loading = "lazy"; img.src = w.img;
+      a2.appendChild(img);
+      wg.appendChild(a2);
+    });
+  }
+
+  var g3d = $("#g3d");
+  if (g3d) (function () {
+    var space = $("#g3dSpace"), cue = $("#g3dCue");
+    /* مواضع الصور في الفضاء: x,y نسبة من الشاشة · z العمق · r ميل بسيط */
+    var SLOTS = [
+      { x: -0.70, y: -0.34, z: -2500, r: -7 },
+      { x:  0.68, y:  0.28, z: -3300, r:  6 },
+      { x: -0.34, y:  0.44, z: -4100, r:  4 },
+      { x:  0.74, y: -0.38, z: -4900, r: -5 },
+      { x: -0.74, y:  0.12, z: -5700, r:  8 },
+      { x:  0.30, y: -0.46, z: -6500, r: -4 }
+    ];
+    var cards = [];
+    D.works.forEach(function (w, i) {
+      var slot = SLOTS[i % SLOTS.length];
+      var a2 = el("a", "g3d__card");
+      a2.href = b.instagram; a2.target = "_blank"; a2.rel = "noopener";
+      a2.setAttribute("aria-label", w.t);
+      var img = new Image();
+      img.src = w.img; img.alt = w.t;
+      a2.appendChild(img);
+      space.appendChild(a2);
+      cards.push({ el: a2, s: slot });
+    });
+
+    var travel = 0, target = 0, mx = 0, my = 0, tmx = 0, tmy = 0;
+    var vw = window.innerWidth, vh = window.innerHeight, running = false;
+
+    function size() { vw = window.innerWidth; vh = window.innerHeight; }
+    window.addEventListener("resize", size, { passive: true });
+
+    /* نقرأ موضع القسم من الحلقة نفسها بدل الاعتماد على حدث التمرير —
+       أضمن في كل المتصفحات وأنعم */
+    function readScroll() {
+      var r = g3d.getBoundingClientRect();
+      var total = g3d.offsetHeight - vh;
+      var p = Math.min(1, Math.max(0, -r.top / (total || 1)));
+      target = p * 7300;
+      if (cue) cue.classList.toggle("is-off", p > 0.05);
+      running = r.top < vh && r.bottom > 0;
+    }
+    window.addEventListener("scroll", function () {
+      readScroll();
+      if (running) { travel += (target - travel) * 0.32; render(); }
+    }, { passive: true });
+
+    window.addEventListener("pointermove", function (e) {
+      tmx = (e.clientX / vw - 0.5) * 2;
+      tmy = (e.clientY / vh - 0.5) * 2;
+    }, { passive: true });
+
+    function render() {
+      space.style.transform =
+        "rotateY(" + (mx * 5).toFixed(2) + "deg) rotateX(" + (-my * 4).toFixed(2) + "deg)";
+      for (var i = 0; i < cards.length; i++) {
+        var c = cards[i], s = c.s, z = s.z + travel;
+        while (z > 500) { z -= 8500; }
+        var o = 1;
+        if (z < -6300) o = Math.max(0, (z + 7500) / 1200);
+        if (z > -260)  o = Math.max(0, (260 - z) / 760);
+        c.el.style.opacity = o.toFixed(3);
+        c.el.style.transform =
+          "translate3d(" + (s.x * vw * 0.44 - 50) + "px," + (s.y * vh * 0.42 - 50) + "px," + z.toFixed(0) + "px)" +
+          " rotateZ(" + s.r + "deg) rotateY(" + (mx * -6).toFixed(2) + "deg)";
+      }
+    }
+
+    function frame() {
+      readScroll();
+      if (running) {
+        travel += (target - travel) * 0.085;
+        mx += (tmx - mx) * 0.06;
+        my += (tmy - my) * 0.06;
+        render();
+      }
+      requestAnimationFrame(frame);
+    }
+    size(); running = true; render(); frame();
+  })();
 
   /* ---------------- services ---------------- */
   var sg = $("#servicesGrid");

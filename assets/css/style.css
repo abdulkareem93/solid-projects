@@ -553,3 +553,67 @@ section{padding-block:clamp(64px,9vh,120px);position:relative;z-index:1}
 
 /* [2026-09-26] بعض التلفونات ما ترسل حدث التحميل بسرعة — نظهر الفيديو فورًا بدل انتظار الكلاس */
 .bgv video{ opacity:1 }
+
+/* ==========================================================
+   [2026-09-26] معرض ثلاثي الأبعاد — بدل شبكة الصور
+   ========================================================== */
+.g3d{position:relative;height:380vh;border-top:1px solid var(--line)}
+.g3d__pin{
+  position:sticky;top:0;height:100svh;overflow:hidden;
+  perspective:1150px;perspective-origin:50% 48%;
+}
+.g3d__space{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+
+.g3d__word{position:absolute;inset:0;display:grid;place-items:center;transform-style:preserve-3d;pointer-events:none}
+.g3d__word img{
+  width:min(46vw,460px);height:auto;display:block;
+  transform:translateZ(-300px);
+  filter:drop-shadow(0 20px 70px rgba(0,0,0,.7));
+  opacity:.92;
+}
+
+.g3d__card{
+  position:absolute;top:50%;left:50%;
+  width:clamp(170px,22vw,330px);aspect-ratio:3/4;
+  border-radius:3px;overflow:hidden;transform-style:preserve-3d;
+  box-shadow:0 30px 90px rgba(0,0,0,.7);
+  outline:1px solid rgba(244,243,239,.12);outline-offset:-1px;
+  will-change:transform,opacity;display:block;
+}
+.g3d__card img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:grayscale(.26) contrast(1.06) brightness(.95);
+  transition:filter .7s var(--d);
+}
+.g3d__card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(7,8,9,.45),transparent 58%)}
+.g3d__card:hover img{filter:grayscale(0) contrast(1.05) brightness(1)}
+
+.g3d__fog{
+  position:absolute;inset:0;pointer-events:none;z-index:6;
+  background:
+    linear-gradient(to bottom,var(--bg) 0%,rgba(7,8,9,0) 15%,rgba(7,8,9,0) 85%,var(--bg) 100%),
+    radial-gradient(ellipse 120% 78% at 50% 50%,transparent 44%,rgba(7,8,9,.84) 100%);
+}
+.g3d__cue{
+  position:absolute;z-index:7;inset-inline-start:50%;bottom:clamp(18px,4vh,42px);
+  transform:translateX(50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  font-size:.68rem;letter-spacing:.24em;color:var(--faint);transition:opacity .5s;
+}
+.g3d__cue i{display:block;width:1px;height:36px;background:linear-gradient(var(--acc),transparent)}
+.g3d__cue.is-off{opacity:0}
+
+@media (max-width:760px){
+  .g3d{height:330vh}
+  .g3d__pin{perspective:760px}
+  .g3d__card{width:clamp(150px,46vw,240px)}
+  .g3d__word img{width:min(62vw,340px)}
+}
+@media (prefers-reduced-motion:reduce){
+  .g3d{height:auto}
+  .g3d__pin{position:static;height:auto;perspective:none;padding:60px 16px}
+  .g3d__space{position:static;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+  .g3d__card{position:static;width:auto;transform:none!important;opacity:1!important}
+  .g3d__word{position:static;margin-bottom:22px}
+  .g3d__word img{transform:none}
+  .g3d__cue{display:none}
+}
