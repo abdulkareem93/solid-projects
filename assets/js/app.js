@@ -165,83 +165,115 @@
   }
 
   var g3d = $("#g3d");
-  if (g3d) (function () {
-    var space = $("#g3dSpace"), cue = $("#g3dCue");
-    /* مواضع الصور في الفضاء: x,y نسبة من الشاشة · z العمق · r ميل بسيط */
-    var SLOTS = [
-      { x: -0.46, y: -0.32, z:  -480, r: -7 },
-      { x:  0.42, y:  0.30, z: -1155, r:  6 },
-      { x: -0.20, y:  0.44, z: -1830, r:  4 },
-      { x:  0.52, y: -0.26, z: -2505, r: -5 },
-      { x: -0.50, y:  0.14, z: -3180, r:  8 },
-      { x:  0.16, y: -0.46, z: -3855, r: -4 }
-    ];
-    var cards = [];
-    D.works.forEach(function (w, i) {
-      var slot = SLOTS[i % SLOTS.length];
-      var a2 = el("a", "g3d__card");
+  if (g3d) { /* [معطّل] معرض العمق — كوده محفوظ في app.js.backup-2026-09-26-d */ }
+
+  /* ---------------- معرض دائري ---------------- */
+  var cg = $("#cg");
+  if (cg) (function () {
+    var ring = $("#cgRing"), dots = $("#cgDots"), hint = $("#cgHint");
+    var n = D.works.length, step = 360 / n;
+    var items = [];
+
+    D.works.forEach(function (w) {
+      var a2 = el("a", "cg__item");
       a2.href = b.instagram; a2.target = "_blank"; a2.rel = "noopener";
       a2.setAttribute("aria-label", w.t);
       var img = new Image();
       img.src = w.img; img.alt = w.t;
       a2.appendChild(img);
-      space.appendChild(a2);
-      cards.push({ el: a2, s: slot });
+      ring.appendChild(a2);
+      items.push(a2);
+      dots.appendChild(document.createElement("b"));
     });
 
-    var travel = 0, target = 0, mx = 0, my = 0, tmx = 0, tmy = 0;
-    var vw = window.innerWidth, vh = window.innerHeight, running = false;
+    var radius = 0, angle = 0, auto = true, timer = null;
 
-    function size() { vw = window.innerWidth; vh = window.innerHeight; }
-    window.addEventListener("resize", size, { passive: true });
-
-    /* نقرأ موضع القسم من الحلقة نفسها بدل الاعتماد على حدث التمرير —
-       أضمن في كل المتصفحات وأنعم */
-    function readScroll() {
-      var r = g3d.getBoundingClientRect();
-      var total = g3d.offsetHeight - vh;
-      var p = Math.min(1, Math.max(0, -r.top / (total || 1)));
-      target = p * 6100;
-      if (cue) cue.classList.toggle("is-off", p > 0.05);
-      running = r.top < vh && r.bottom > 0;
+    function measure() {
+      var w = items[0] ? items[0].offsetWidth : 240;
+      radius = Math.round((w * 1.62) / (2 * Math.tan(Math.PI / n)));
     }
-    window.addEventListener("scroll", function () {
-      readScroll();
-      if (running) { travel += (target - travel) * 0.32; render(); }
-    }, { passive: true });
 
-    window.addEventListener("pointermove", function (e) {
-      tmx = (e.clientX / vw - 0.5) * 2;
-      tmy = (e.clientY / vh - 0.5) * 2;
-    }, { passive: true });
-
-    function render() {
-      space.style.transform =
-        "rotateY(" + (mx * 5).toFixed(2) + "deg) rotateX(" + (-my * 4).toFixed(2) + "deg)";
-      for (var i = 0; i < cards.length; i++) {
-        var c = cards[i], s = c.s, z = s.z + travel;
-        while (z > 860) { z -= 4050; }
-        var o = 1;
-        if (z < -3550) o = Math.max(0, (z + 4300) / 750);
-        if (z > 380)   o = Math.max(0, (860 - z) / 480);
-        c.el.style.opacity = o.toFixed(3);
-        c.el.style.transform =
-          "translate3d(" + (s.x * vw * 0.30 - 50) + "px," + (s.y * vh * 0.28 - 50) + "px," + z.toFixed(0) + "px)" +
-          " rotateZ(" + s.r + "deg) rotateY(" + (mx * -6).toFixed(2) + "deg)";
+    function layout() {
+      ring.style.transform = "rotateY(" + angle.toFixed(2) + "deg)";
+      var front = 0, best = 1e9;
+      for (var i = 0; i < items.length; i++) {
+        items[i].style.transform = "rotateY(" + (i * step) + "deg) translateZ(" + radius + "px)";
+        var rel = ((i * step + angle) % 360 + 360) % 360;
+        var diff = Math.min(rel, 360 - rel);
+        if (diff < best) { best = diff; front = i; }
+      }
+      for (var j = 0; j < items.length; j++) {
+        items[j].classList.toggle("is-front", j === front);
+        if (dots.children[j]) dots.children[j].classList.toggle("on", j === front);
       }
     }
 
-    function frame() {
-      readScroll();
-      if (running) {
-        travel += (target - travel) * 0.085;
-        mx += (tmx - mx) * 0.06;
-        my += (tmy - my) * 0.06;
-        render();
-      }
-      requestAnimationFrame(frame);
+    /* الحركة بانتقال CSS — تشتغل حتى لو المتصفح موقّف حلقة الرسم */
+    function goTo(i) { angle = -i * step; layout(); }
+    function index() { return Math.round(-angle / step); }
+
+    function stopAuto() {
+      auto = false;
+      if (timer) { clearInterval(timer); timer = null; }
+      if (hint) hint.classList.add("is-off");
     }
-    size(); running = true; render(); frame();
+
+    $("#cgNext").addEventListener("click", function () { stopAuto(); goTo(index() + 1); });
+    $("#cgPrev").addEventListener("click", function () { stopAuto(); goTo(index() - 1); });
+
+    /* سحب بالإصبع أو الماوس */
+    var dragging = false, lastX = 0, moved = 0;
+    cg.addEventListener("pointerdown", function (e) {
+      dragging = true; moved = 0; lastX = e.clientX;
+      stopAuto();
+      cg.classList.add("is-dragging");
+      if (cg.setPointerCapture) { try { cg.setPointerCapture(e.pointerId); } catch (x) {} }
+    });
+    cg.addEventListener("pointermove", function (e) {
+      if (!dragging) return;
+      var dx = e.clientX - lastX; lastX = e.clientX;
+      moved += Math.abs(dx);
+      angle += dx * 0.3;
+      layout();
+    });
+    function release() {
+      if (!dragging) return;
+      dragging = false;
+      cg.classList.remove("is-dragging");
+      angle = Math.round(angle / step) * step;   /* يلزق على أقرب صورة */
+      layout();
+    }
+    cg.addEventListener("pointerup", release);
+    cg.addEventListener("pointercancel", release);
+    cg.addEventListener("pointerleave", release);
+
+    /* ما نفتح إنستغرام إذا كان يسحب */
+    items.forEach(function (it) {
+      it.addEventListener("click", function (e) { if (moved > 8) e.preventDefault(); });
+    });
+
+    /* لوحة المفاتيح */
+    cg.setAttribute("tabindex", "0");
+    cg.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft")  { stopAuto(); goTo(index() + 1); }
+      if (e.key === "ArrowRight") { stopAuto(); goTo(index() - 1); }
+    });
+
+    window.addEventListener("resize", function () { measure(); layout(); }, { passive: true });
+
+    measure(); layout();
+
+    /* يدور لحاله لما يوصله المستخدم، ويوقف أول ما يلمسه */
+    function startAuto() {
+      if (timer || !auto) return;
+      timer = setInterval(function () { if (auto) goTo(index() + 1); }, 3600);
+    }
+    if (window.IntersectionObserver) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (x) { if (x.isIntersecting) startAuto(); });
+      }, { threshold: 0.25 }).observe(cg);
+    } else { startAuto(); }
+    setTimeout(function () { if (hint) hint.classList.add("is-off"); }, 6000);
   })();
 
   /* ---------------- services ---------------- */

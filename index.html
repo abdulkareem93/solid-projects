@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zain:wght@300;400;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=35">
+<link rel="stylesheet" href="assets/css/style.css?v=37">
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -126,7 +126,7 @@
   <div class="works__grid" id="worksGrid"></div>
   -->
 
-  <!-- معرض ثلاثي الأبعاد — الصور تجي عليك مع التمرير -->
+  <!-- [معطّل] معرض العمق — محفوظ، يرجع بشيل التعليق
   <div class="g3d" id="g3d">
     <div class="g3d__pin">
       <div class="g3d__space" id="g3dSpace">
@@ -135,6 +135,21 @@
       <div class="g3d__fog"></div>
       <div class="g3d__cue" id="g3dCue"><i></i><span>مرّر</span></div>
     </div>
+  </div>
+  -->
+
+  <!-- معرض دائري — الصور على أسطوانة تدور -->
+  <div class="cg" id="cg">
+    <div class="cg__stage">
+      <div class="cg__ring" id="cgRing"></div>
+    </div>
+    <div class="cg__floor" aria-hidden="true"></div>
+    <div class="cg__nav">
+      <button class="cg__btn" id="cgPrev" aria-label="السابق"><i></i></button>
+      <span class="cg__dots" id="cgDots"></span>
+      <button class="cg__btn cg__btn--next" id="cgNext" aria-label="التالي"><i></i></button>
+    </div>
+    <span class="cg__hint" id="cgHint">اسحب بإصبعك</span>
   </div>
 </section>
 
@@ -184,6 +199,6 @@
 <script src="data.js?v=17"></script>
 <!-- <script src="assets/vendor/three.min.js"></script> -->
 <!-- <script src="assets/js/truck3d.js?v=2"></script> -->
-<script src="assets/js/app.js?v=23"></script>
+<script src="assets/js/app.js?v=25"></script>
 </body>
 </html>
