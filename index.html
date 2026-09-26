@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SOLID PROJECTS — تصنيع مشاريع الأوفرود</title>
+<meta name="description" content="تصنيع وتجهيز قطع الأوفرود في الكويت: دعاميات، أرفف سطح، منصات، درجات جانبية وحمّالات — تصميم وتصنيع وتركيب داخل الورشة.">
+<meta name="theme-color" content="#070809">
+<meta http-equiv="Cache-Control" content="no-cache">
+<link rel="icon" type="image/png" href="media/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zain:wght@300;400;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=28">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ خلفية الموقع: فيديو شغّال طول الوقت ============ -->
+<div class="bgv" aria-hidden="true">
+  <video id="bgVideo" playsinline muted loop autoplay preload="auto"></video>
+  <div class="bgv__ph" id="bgPh"></div>
+  <div class="bgv__scrim"></div>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <a class="nav__logo" href="#top">
+    <span class="mark" id="logoMark"><i></i></span>
+    <span class="wordmark"><b id="brandA">SOLID</b><em id="brandB">PROJECTS</em></span>
+  </a>
+  <nav class="nav__links">
+    <a href="#works">أعمالنا</a>
+    <a href="#services">خدماتنا</a>
+    <a href="#process">طريقة الشغل</a>
+  </nav>
+  <a class="btn btn--sm" id="navCta" href="#contact"><span>تواصل معنا</span><i class="ar"></i></a>
+  <button class="nav__burger" id="burger" aria-label="القائمة"><i></i><i></i></button>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero__media">
+    <div class="hero__hint" id="heroHint">ضع فيديو الريل باسم <code>hero.mp4</code> داخل مجلد <code>media</code></div>
+    <div class="hero__scrim"></div>
+  </div>
+
+  <div class="hero__rail" aria-hidden="true"><span id="railText"></span></div>
+
+  <div class="hero__body">
+    <p class="kicker" id="heroKicker"></p>
+    <h1 class="hero__title" id="heroTitle"></h1>
+    <p class="hero__lead" id="heroLead"></p>
+    <div class="hero__cta">
+      <a class="btn btn--solid" id="heroCta1" href="#contact"><span></span><i class="ar"></i></a>
+      <a class="btn" id="heroCta2" href="#works"><span></span><i class="ar"></i></a>
+    </div>
+  </div>
+
+  <div class="hero__foot">
+    <a class="scrollcue" href="#studio"><i></i><span>مرّر</span></a>
+    <span class="hero__loc" id="heroLoc"></span>
+  </div>
+</section>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-hidden="true"><div class="ticker__row" id="tickerRow"></div></div>
+
+<!-- [معطّل مؤقتًا] قسم المجسم ثلاثي الأبعاد — محفوظ كامل، نرجعه بأي وقت
+<!- - ============ 3D STUDIO ============ - ->
+<section class="studio" id="studio">
+  <div class="sec__head">
+    <span class="sec__idx">٠١</span>
+    <h2 class="sec__title">كل خط أبيض<em>جزء صنعناه</em></h2>
+    <p class="sec__sub">حرّك السيارة بإصبعك أو بالماوس، وقرّب على أي نقطة — يطلع لك الجزء اللي من إنتاجنا شنو هو.</p>
+  </div>
+
+  <div class="studio__grid">
+    <div class="stage" id="stage">
+      <canvas id="scene"></canvas>
+      <svg class="stage__lines" id="lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+      <div class="stage__layer" id="layer"></div>
+      <div class="stage__corner stage__corner- -tr"></div>
+      <div class="stage__corner stage__corner- -tl"></div>
+      <div class="stage__corner stage__corner- -br"></div>
+      <div class="stage__corner stage__corner- -bl"></div>
+      <div class="stage__badge"><span class="dotpulse"></span> نموذج ثلاثي الأبعاد · تفاعلي</div>
+      <div class="stage__loading" id="stageLoading">جاري تجهيز النموذج…</div>
+      <div class="stage__err" id="stageErr" hidden>المتصفح ما يدعم العرض ثلاثي الأبعاد — جرّب متصفح أحدث.</div>
+      <div class="stage__tools">
+        <button class="tool tool- -main" id="btnAll"><i class="ic"></i><span>اعرض كل الأجزاء</span></button>
+        <button class="tool" id="btnSpin" title="الدوران التلقائي"><i class="ic ic- -spin"></i></button>
+        <div class="tool__views">
+          <button data-view="34" class="is-on">٣/٤</button>
+          <button data-view="side">جانبي</button>
+          <button data-view="front">أمامي</button>
+          <button data-view="rear">خلفي</button>
+        </div>
+      </div>
+    </div>
+
+    <aside class="plist">
+      <div class="plist__head">
+        <span class="plist__count"><b id="pCount">0</b> جزء من إنتاجنا</span>
+        <span class="plist__hint">مرّر على الاسم</span>
+      </div>
+      <ul id="plist"></ul>
+      <a class="plist__cta btn btn- -solid" href="#contact"><span>سوِّ لي مثلها</span><i class="ar"></i></a>
+    </aside>
+  </div>
+</section>
+
+-->
+
+<!-- ============ WORKS ============ -->
+<section class="works" id="works">
+  <div class="works__banner">
+    <img src="media/gallery/workshop.jpg" alt="ورشة SOLID PROJECTS — المدخل الرئيسي" loading="lazy">
+    <div class="sec__head">
+      <span class="sec__idx">٠٢</span>
+      <h2 class="sec__title">أعمالنا<em>من الورشة</em></h2>
+      <p class="sec__sub">كل قطعة تشوفها انصنعت عندنا من الصفر.</p>
+    </div>
+  </div>
+  <div class="works__grid" id="worksGrid"></div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="services" id="services">
+  <div class="sec__head">
+    <span class="sec__idx">٠٣</span>
+    <h2 class="sec__title">خدماتنا</h2>
+  </div>
+  <div class="services__grid" id="servicesGrid"></div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section class="process" id="process">
+  <div class="sec__head">
+    <span class="sec__idx">٠٤</span>
+    <h2 class="sec__title">طريقة الشغل</h2>
+  </div>
+  <ol class="process__list" id="processList"></ol>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="contact__in">
+    <p class="kicker">جاهز تبدأ؟</p>
+    <h2 class="contact__title">عندك فكرة لسيارتك؟<em>احنا نصنعها.</em></h2>
+    <div class="contact__acts">
+      <a class="btn btn--solid btn--lg" id="waBtn" target="_blank" rel="noopener"><span>واتساب</span><i class="ar"></i></a>
+      <a class="btn btn--lg" id="igBtn" target="_blank" rel="noopener"><span>إنستغرام</span><i class="ar"></i></a>
+    </div>
+    <div class="contact__meta">
+      <span id="cPhone" dir="ltr"></span><i></i><span id="cLoc"></span>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <span id="footBrand"></span>
+  <span class="foot__sep"></span>
+  <span id="footYear"></span>
+</footer>
+
+<a class="wafab" id="waFab" target="_blank" rel="noopener" aria-label="واتساب">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.45 1.33 4.95L2 22l5.23-1.37a9.9 9.9 0 004.81 1.23h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.09-4.55-3.93-4.69-4.11-.14-.18-1.13-1.5-1.13-2.86s.71-2.03.96-2.31c.25-.28.55-.35.73-.35s.37 0 .53.01c.17.01.4-.06.62.48.24.57.8 1.97.87 2.11.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.72 1.19 1.55 1.93 1.07.95 1.97 1.25 2.25 1.39.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.34z"/></svg>
+</a>
+
+<script src="data.js?v=13"></script>
+<!-- <script src="assets/vendor/three.min.js"></script> -->
+<!-- <script src="assets/js/truck3d.js?v=2"></script> -->
+<script src="assets/js/app.js?v=15"></script>
+</body>
+</html>
