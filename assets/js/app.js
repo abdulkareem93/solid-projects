@@ -134,7 +134,16 @@
     window.addEventListener("resize", clean);
   })();
 
-  v.src = D.hero.video;
+  /* المصدر مكتوب في HTML عشان التشغيل التلقائي يبدأ قبل أي كود — نضبطه هنا فقط لو تغيّر */
+  if (!v.getAttribute("src")) { v.src = D.hero.video; }
+  else if (v.getAttribute("src") !== D.hero.video) { v.src = D.hero.video; }
+  play();
+  /* بعض التلفونات تحتاج محاولات متكررة في أول ثانيتين */
+  var tries = 0;
+  var retry = setInterval(function () {
+    if (!v.paused || tries++ > 14) { clearInterval(retry); return; }
+    play();
+  }, 140);
 
   /* ticker */
   var tr = $("#tickerRow"), tHtml = D.ticker.map(function (t) { return "<span>" + t + "</span>"; }).join("");
