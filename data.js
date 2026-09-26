@@ -16,7 +16,7 @@ window.SITE = {
   },
 
   hero: {
-    video: "media/hero-lite.mp4",   // نسخة خفيفة تبدأ فورًا (الأصل محفوظ: hero.mp4)
+    video: "media/hero-fast2.mp4",  // نسخة سريعة ١٢ ثانية (الأصل محفوظ: hero.mp4)
     poster: "media/hero.jpg",       // صورة تظهر قبل تشغيل الفيديو
     kicker: "مشاريع أوفرود · تصنيع خاص",
     title: ["نبنيها", "قطعة قطعة"],
