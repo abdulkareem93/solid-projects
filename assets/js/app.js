@@ -169,12 +169,12 @@
     var space = $("#g3dSpace"), cue = $("#g3dCue");
     /* مواضع الصور في الفضاء: x,y نسبة من الشاشة · z العمق · r ميل بسيط */
     var SLOTS = [
-      { x: -0.70, y: -0.34, z: -2500, r: -7 },
-      { x:  0.68, y:  0.28, z: -3300, r:  6 },
-      { x: -0.34, y:  0.44, z: -4100, r:  4 },
-      { x:  0.74, y: -0.38, z: -4900, r: -5 },
-      { x: -0.74, y:  0.12, z: -5700, r:  8 },
-      { x:  0.30, y: -0.46, z: -6500, r: -4 }
+      { x: -0.46, y: -0.32, z:  -480, r: -7 },
+      { x:  0.42, y:  0.30, z: -1155, r:  6 },
+      { x: -0.20, y:  0.44, z: -1830, r:  4 },
+      { x:  0.52, y: -0.26, z: -2505, r: -5 },
+      { x: -0.50, y:  0.14, z: -3180, r:  8 },
+      { x:  0.16, y: -0.46, z: -3855, r: -4 }
     ];
     var cards = [];
     D.works.forEach(function (w, i) {
@@ -201,7 +201,7 @@
       var r = g3d.getBoundingClientRect();
       var total = g3d.offsetHeight - vh;
       var p = Math.min(1, Math.max(0, -r.top / (total || 1)));
-      target = p * 7300;
+      target = p * 6100;
       if (cue) cue.classList.toggle("is-off", p > 0.05);
       running = r.top < vh && r.bottom > 0;
     }
@@ -220,13 +220,13 @@
         "rotateY(" + (mx * 5).toFixed(2) + "deg) rotateX(" + (-my * 4).toFixed(2) + "deg)";
       for (var i = 0; i < cards.length; i++) {
         var c = cards[i], s = c.s, z = s.z + travel;
-        while (z > 500) { z -= 8500; }
+        while (z > 860) { z -= 4050; }
         var o = 1;
-        if (z < -6300) o = Math.max(0, (z + 7500) / 1200);
-        if (z > -260)  o = Math.max(0, (260 - z) / 760);
+        if (z < -3550) o = Math.max(0, (z + 4300) / 750);
+        if (z > 380)   o = Math.max(0, (860 - z) / 480);
         c.el.style.opacity = o.toFixed(3);
         c.el.style.transform =
-          "translate3d(" + (s.x * vw * 0.44 - 50) + "px," + (s.y * vh * 0.42 - 50) + "px," + z.toFixed(0) + "px)" +
+          "translate3d(" + (s.x * vw * 0.30 - 50) + "px," + (s.y * vh * 0.28 - 50) + "px," + z.toFixed(0) + "px)" +
           " rotateZ(" + s.r + "deg) rotateY(" + (mx * -6).toFixed(2) + "deg)";
       }
     }

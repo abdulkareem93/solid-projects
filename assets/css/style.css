@@ -574,7 +574,7 @@ section{padding-block:clamp(64px,9vh,120px);position:relative;z-index:1}
 
 .g3d__card{
   position:absolute;top:50%;left:50%;
-  width:clamp(170px,22vw,330px);aspect-ratio:3/4;
+  width:clamp(190px,25vw,380px);aspect-ratio:3/4;
   border-radius:3px;overflow:hidden;transform-style:preserve-3d;
   box-shadow:0 30px 90px rgba(0,0,0,.7);
   outline:1px solid rgba(244,243,239,.12);outline-offset:-1px;
@@ -592,7 +592,7 @@ section{padding-block:clamp(64px,9vh,120px);position:relative;z-index:1}
   position:absolute;inset:0;pointer-events:none;z-index:6;
   background:
     linear-gradient(to bottom,var(--bg) 0%,rgba(7,8,9,0) 15%,rgba(7,8,9,0) 85%,var(--bg) 100%),
-    radial-gradient(ellipse 120% 78% at 50% 50%,transparent 44%,rgba(7,8,9,.84) 100%);
+    radial-gradient(ellipse 140% 96% at 50% 50%,transparent 62%,rgba(7,8,9,.7) 100%);
 }
 .g3d__cue{
   position:absolute;z-index:7;inset-inline-start:50%;bottom:clamp(18px,4vh,42px);
