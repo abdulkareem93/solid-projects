@@ -63,12 +63,16 @@
   if (D.hero.poster) v.poster = D.hero.poster;
   v.muted = true;
   v.setAttribute("muted", "");
-  v.addEventListener("loadeddata", function () {
+  function reveal() {
     v.classList.add("is-on");
     ph.classList.add("is-off");
     if (hint) hint.style.display = "none";
     play();
-  });
+  }
+  /* start as early as the browser lets us, not after full buffering */
+  v.addEventListener("loadedmetadata", reveal);
+  v.addEventListener("loadeddata", reveal);
+  v.addEventListener("canplay", play);
   function play() {
     var p = v.play();
     if (p && p.catch) p.catch(function () {
@@ -95,7 +99,7 @@
       btn.remove();
     });
     v.addEventListener("playing", function () { if (btn.parentNode) btn.remove(); });
-  }, 2200);
+  }, 5000);
 
   /* بعض إضافات المتصفح (مثل Ultrawidify) تغيّر مقاس أي فيديو بالقوة — نرجّعه لمكانه */
   (function protectVideo() {

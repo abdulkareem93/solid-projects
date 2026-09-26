@@ -538,3 +538,10 @@ section{padding-block:clamp(64px,9vh,120px);position:relative;z-index:1}
   *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
   .hero__title span b{transform:none}
 }
+
+/* [بطلبه 2026-09-26] الشاشة الأولى: الشعار فقط — النص الوصفي والزرين ومؤشر «مرّر» مخفيين.
+   يرجعون بشيل هذا البلوك. */
+.hero__lead,
+.hero__cta,
+.hero__foot .scrollcue{ display:none !important; }
+.hero__title{ margin-bottom:0 }
