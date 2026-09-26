@@ -374,9 +374,8 @@ section{padding-block:clamp(64px,9vh,120px);position:relative;z-index:1}
   margin-bottom:clamp(18px,2.6vw,34px);
 }
 .works__banner img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;
-  transform:scale(1);transform-origin:right top;
-  filter:contrast(1.05) saturate(.95);
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;
+  filter:contrast(1.06) saturate(.95);
 }
 .works__banner::after{
   content:"";position:absolute;inset:0;
@@ -396,8 +395,8 @@ section{padding-block:clamp(64px,9vh,120px);position:relative;z-index:1}
 }
 .works__banner .sec__sub{color:rgba(244,243,239,.8);margin-inline:auto;margin-top:.8em}
 @media (max-width:760px){
-  .works__banner{min-height:230px}
-  .works__banner img{transform:scale(1.35);transform-origin:right top}
+  .works__banner{min-height:215px}
+  .works__banner img{object-position:right center}
   .works__banner::after{
     background:
       linear-gradient(to top,rgba(7,8,9,.9) 0%,rgba(7,8,9,.62) 55%,rgba(7,8,9,.66)),
