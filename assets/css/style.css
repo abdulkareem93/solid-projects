@@ -545,3 +545,8 @@ section{padding-block:clamp(64px,9vh,120px);position:relative;z-index:1}
 .hero__cta,
 .hero__foot .scrollcue{ display:none !important; }
 .hero__title{ margin-bottom:0 }
+
+/* [بطلبه 2026-09-26] الشعار يطلع فوق بدل ما ينزل تحت الشاشة */
+.hero{ justify-content:space-between; padding-top:clamp(86px,12vh,140px); }
+.hero__title--logo{ margin-top:0; margin-bottom:.25em; }
+.hero .kicker{ margin-bottom:.2em }
